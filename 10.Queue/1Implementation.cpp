@@ -43,11 +43,8 @@ public:
             return;
         }
         Node* temp=head;
-        while(temp->next!=tail){
-            temp=temp->next;
-        }
-        temp->next=NULL;
-        tail=temp;
+        head=head->next;
+        delete temp;
     }
 
     int front(){
@@ -75,6 +72,7 @@ int main() {
     cout << "Front element: " << q.front() << endl; // Should print 10
 
     q.pop();
+    cout << "Front element: " << q.front() << endl; // Should print 20
     q.pop();
     q.pop();
     cout << "Front element after pop: " << q.front() << endl; // Should print Queue already empty.
