@@ -47,9 +47,8 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         currGas = currGas + gas[i] - cost[i];  // net gas after visiting station i
 
         if (currGas < 0) {                     // can't reach next station
-            if (i == (cost.size() - 1)) ans = i;  // edge case: last station
-            else ans = i + 1;                     // try next station as start
-            currGas = 0;                          // reset current gas
+            ans = (i + 1) % gas.size();        // try next station as start
+            currGas = 0;                       // reset current gas
         }
     }
 

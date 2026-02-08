@@ -50,8 +50,8 @@ bool isValidBST(Node* root) {
 // and all nodes in the right subtree are greater than root.
 
 // So, we pass down the valid range for each node.
-// For left child, max limit is root's value
-// For right child, min limit is root's value
+// For left child, the upper bound is the parent node's value.
+// For right child, the lower bound is the parent node's value.
 
 // Helper function to validate BST using range limits
 bool helper(Node* root, Node* min, Node* max){
@@ -65,8 +65,8 @@ bool helper(Node* root, Node* min, Node* max){
     if(max != NULL && root->data >= max->data) return false;
 
     // Check left subtree (update max) and right subtree (update min)
-    return helper(root->left, min, root) &&
-           helper(root->right, root, max);
+    return helper(root->left, min, root) &&   // max value for left subtree is the parent node
+           helper(root->right, root, max);    // min value for righ subtree is the parent node
 }
 
 // Main function to check if tree is a valid BST

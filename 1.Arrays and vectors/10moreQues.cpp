@@ -154,6 +154,12 @@ vector <int> productBrute(vector<int>& num){        // Time Complexity => O(n^2)
 }
 
 // NEW APPROACH [TC -> O(n) and Space Complexity - O(n)]
+
+// Using Prefix and Suffix arrays
+// Prefix array stores product of all elements to the left of current index
+// Suffix array stores product of all elements to the right of current index
+// Final answer at each index is prefix[i] * suffix[i]
+
 vector <int> OptimisedProduct(vector<int>& num){
     int n=num.size();
     vector <int> ans(n,1);
@@ -179,6 +185,11 @@ vector <int> OptimisedProduct(vector<int>& num){
 // MORE OPTIMISED APPROACH [TC -> O(n) and Space Complexity - O(n) (resultatnt vector not included in it)]
 
 // DRY RUN for better understanding
+
+
+// NOTE: Here we are directly storing prefix products in the ans vector to save space.
+// Then we are using a single variable 'suffix' to keep track of suffix products on the fly,
+// multiplying it with the corresponding prefix product already stored in ans.
 
 vector <int> MoreOptimisedProduct(vector<int>& num){
     int n=num.size();

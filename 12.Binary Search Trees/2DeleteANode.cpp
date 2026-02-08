@@ -72,6 +72,15 @@ void inorder(Node* root){
 //     We replace 3 with 3.5 and then delete the original 3.5 node.
 //     The modified tree will be: [2, 3.5, 4, 4.5, 5, 8, 9]  (Maintains BST properties)
 
+//     After deleting 3, tree would look like
+//         5
+//        / \
+//      3.5   8
+//     /   \   \
+//    2     4   9
+//           \
+//           4.5    
+
 // Inorder Successor will always have at most one child (right child) because it is the leftmost node in the right subtree.
 // So deleting it is very easy (either leaf node or one child case).
 
@@ -96,7 +105,7 @@ Node* deleteNode(Node* root, int key) {
             root->right = deleteNode(root->right, InSucc->data); // delete successor
             // Will find successor in right subtree and delete it
 
-        // Case 2: only right child
+        // Case 2: only right child (return non null child)
         } else if(root->right != NULL){
             Node* t = root->right;
             delete root;
