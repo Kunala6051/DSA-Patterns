@@ -44,7 +44,8 @@ struct Node{
 // the second violation (sec2) and swap them at the end. 
 
 // So when we find a violation, we will check if frst1 is already set or not. 
-// If not, we will set frst1 to the previous node and sec2 to the current node. If frst1 is already set, we will just update sec2 to the current node. 
+// If not, we will set frst1 to the previous node and sec2 to the current node. 
+// If frst1 is already set, we will just update sec2 to the current node. 
 // This way, at the end of the traversal, we will have frst1 and sec2 as the two nodes to swap.
 
 Node* pre = NULL;    // previous node in inorder traversal

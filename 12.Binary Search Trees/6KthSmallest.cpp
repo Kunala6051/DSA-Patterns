@@ -92,8 +92,6 @@ int kthSmallest(TreeNode* root, int k) {
 // - Uses inorder traversal with early stopping
 // - Returns answer immediately when k-th node is found
 // - Avoids unnecessary traversal
-// - More complex due to multiple return paths
-// - Harder to read and debug
 
 int order2 = 0;    // Counts nodes visited so far
 
