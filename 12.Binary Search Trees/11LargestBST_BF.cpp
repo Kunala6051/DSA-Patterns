@@ -71,7 +71,7 @@ int main(){
     //      /  \
    //     45    6
    //    / \
-  //    30  70
+  //    30  48
     int idx = -1;
     Node* root = buildTree(values, idx);
     cout<<largestBst(root)<<endl; // Output: 7 (the entire tree is a BST)
