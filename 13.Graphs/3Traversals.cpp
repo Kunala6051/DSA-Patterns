@@ -31,7 +31,7 @@ public:
         }
     }
 
-    void BFStraversal(int r){
+    void BFStraversal(int r=0){ // Default starting vertex is 0
         vector<bool> visited(v, false);
         queue<int> q;
         q.push(r);
@@ -61,7 +61,7 @@ public:
         }
     }
 
-    void DFStraversal(int r){
+    void DFStraversal(int r=0){ // Default starting vertex is 0
         vector<bool> vis(v, false);
         helper(r, vis);
         cout << endl;
