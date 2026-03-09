@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -61,8 +62,8 @@ Algorithm Steps:
       Case 1: Neighbor not visited
               → recursively call DFS(neighbor, current_node)
 
-      Case 2: Neighbor already visited
-              → if neighbor != parent
+      Case 2: Neighbor already visited 
+              → if neighbor != parent  (this is known as a BACK EDGE)
                     cycle detected
 
 5. If any recursive call detects a cycle → return true.
@@ -133,6 +134,36 @@ public:
     }
     // Time Complexity: O(V + E) 
     //      where V is the number of vertices and E is the number of edges in the, since we are visiting each vertex and edge at most once.
+
+    bool helper2(int r, vector<bool>& vis){
+        queue<pair<int, int>> q;
+        q.push({r, -1});
+        vis[r]=true;
+        while(!q.empty()){
+            int f = q.front().first;
+            int par = q.front().second;
+            q.pop();
+            for(int i: arr[f]){
+                if(!vis[i]){
+                    vis[i] = true;
+                    q.push({i, f});
+                } else{
+                    if(i!=par) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool detectCycleBFS(){
+        vector<bool> vis(v, false);
+        for(int i=0;i<v;i++){
+            if(!vis[i]){
+                if(helper2(i, vis)) return true;
+            }
+        }
+        return false;
+    }
 };
 
 
@@ -155,6 +186,9 @@ int main(){
     if(g.detectCycle()==0) cout << "Graph is not connected" << endl;
     else cout << "Graph is connected" << endl;
 
+    if(g.detectCycleBFS()==0) cout << "Graph is not connected" << endl;
+    else cout << "Graph is connected" << endl;
+
     // Connected Graph
 
     Graph g2(6); // create a graph with 6 vertices (0 to 5)
@@ -173,6 +207,9 @@ int main(){
     g2.addEdge(1,5);
 
     if(g2.detectCycle()==0) cout << "Graph is not connected" << endl;
+    else cout << "Graph is connected" << endl;
+
+    if(g2.detectCycleBFS()==0) cout << "Graph is not connected" << endl;
     else cout << "Graph is connected" << endl;
 
 
