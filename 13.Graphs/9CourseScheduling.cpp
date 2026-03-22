@@ -8,7 +8,7 @@ Course Schedule (LeetCode 207)
 Given n courses and prerequisites where [a, b] means you must complete course b before course a,
 determine whether it is possible to finish all courses.
 Like if [1,0] → you must complete course 0 before course 1
-i.e., 0 → 1 (directed edge from 0 to 1), 0 is dependency for 1
+i.e., 0 → 1 (directed edge from 0 to 1), 0 is dependency for 1 [1 depends on 0]
 
 👉 Core Idea:
 Treat this as a Directed Graph problem:
@@ -61,7 +61,7 @@ Course Schedule using DFS (Cycle Detection)
 - recPath[] → nodes in current DFS path (for cycle detection)
 */
 
-bool helper(int src, vector<bool>& vis, vector<bool>& recPath, vector<vector<int>>& prerequisites){
+bool isCycle(int src, vector<bool>& vis, vector<bool>& recPath, vector<vector<int>>& prerequisites){
     vis[src]=true;                // mark current node as visited
     recPath[src]=true;            // add node to current recursion path
 
@@ -74,7 +74,7 @@ bool helper(int src, vector<bool>& vis, vector<bool>& recPath, vector<vector<int
         if(src==v){
             // if neighbor (u) is not visited, do DFS on it
             if(!vis[u]){
-                if(helper(u, vis, recPath, prerequisites)) return true; // cycle found in deeper call
+                if(isCycle(u, vis, recPath, prerequisites)) return true; // cycle found in deeper call
             } 
             // if neighbor is already in recursion path → cycle detected
             else if(recPath[u]){
@@ -94,7 +94,7 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     // try DFS from every node (important for disconnected graph)
     for(int i=0; i<numCourses; i++){
         if(!vis[i]){                          // if node not visited
-            if(helper(i, vis, recPath, prerequisites)) 
+            if(isCycle(i, vis, recPath, prerequisites)) 
                 return false;                 // cycle found → cannot finish courses
         }
     }
@@ -102,9 +102,77 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     return true;                              // no cycle → all courses can be completed
 }
 
+// LeetCode 210 - Course Schedule II
+
+/*
+Course Schedule II (Topological Sort using DFS)
+
+- First we ensure no cycle exists (using canFinish)
+- Then we perform DFS-based topological sorting
+- Stack stores nodes in reverse topological order
+*/
+
+void dfs(int src, vector<bool>& vis, stack<int>& topSort, vector<vector<int>>& prerequisites){
+
+    vis[src] = true;                 // mark current node as visited
+
+    // traverse all edges to find neighbors of src
+    for(int i=0; i<prerequisites.size(); i++){
+        int u = prerequisites[i][0]; // course to take
+        int v = prerequisites[i][1]; // prerequisite
+
+        // if there is an edge v → u and current node is v
+        if(v==src){
+            // if neighbor not visited, visit it
+            if(!vis[u]){
+                dfs(u, vis, topSort, prerequisites); // recursive DFS call
+            }
+        }
+    }
+
+    // after visiting all neighbors, push current node into stack
+    // ensures correct topological order (post-order insertion)
+    topSort.push(src);
+}
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> result;                  // final topological order
+
+        // if cycle exists → no valid ordering
+        if(!canFinish(numCourses, prerequisites)) return result;
+
+        vector<bool> vis(numCourses, false); // visited array
+        stack<int> topSort;                  // stack for topo sort
+
+        // run DFS for all nodes (handles disconnected graph)
+        for(int i = 0; i < numCourses; i++){
+            if(!vis[i]){                    // if node not visited
+                dfs(i, vis, topSort, prerequisites);
+            }
+        }
+
+        // stack has reverse order → pop to get correct order
+        while(!topSort.empty()){
+            result.push_back(topSort.top());
+            topSort.pop();
+        }
+
+        return result; // return valid course order
+}
+
 int main(){
-    int numCourses = 2;
-    vector<vector<int>> prerequisites = {{1,0}, {0,1}}; // cycle exists: 0 → 1 → 0
+    int numCourses = 4;
+    vector<vector<int>> prerequisites = {{1,0}, {2,0}, {3,1}, {3,2}}; // cycle exists: 0 → 1 → 0
     cout << canFinish(numCourses, prerequisites) << endl; // Output: 0 (false)
+    vector<int> order = findOrder(numCourses, prerequisites);
+    if(order.empty()){
+        cout << "No valid course order (cycle detected)" << endl;
+    } else {
+        cout << "Course order: ";
+        for(int course : order){
+            cout << course << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
