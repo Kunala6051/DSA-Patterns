@@ -312,17 +312,17 @@ Vertices:
 
 ```
 0 → 1
-1 → 0,2,3
+1 → 0,2
 2 → 1,3
-3 → 1,2
+3 → 2
 ```
 
 Meaning:
 
 * 0 connected to 1
-* 1 connected to 0,2,3
+* 1 connected to 0,2
 * 2 connected to 1,3
-* 3 connected to 1,2
+* 3 connected to 2
 
 ---
 

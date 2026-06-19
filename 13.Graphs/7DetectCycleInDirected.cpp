@@ -85,7 +85,7 @@ public:
         for(int i: arr[r]){
             if(!vis[i]){
                 if(helper(i, vis, resPath)) return true;
-            } else if(resPath[r]){
+            } else if(resPath[i]){
                 return true;
             }
         }

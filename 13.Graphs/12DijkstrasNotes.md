@@ -1,22 +1,19 @@
-# 📘 DIJKSTRA’S ALGORITHM — COMPLETE NOTES
+
+# 📘 DIJKSTRA’S ALGORITHM 
 
 ---
 
-## 🔹 1. What is Shortest Path?
+## 🔹 1. Shortest Path
 
-* **Shortest path** = Minimum cost/distance from a source node to all other nodes.
-* Used in **weighted graphs**.
-
-👉 Example:
-
-* Like Google Maps
-  → weight = distance / time / cost
+* Minimum cost/distance from a **source node → all nodes**
+* Used in **weighted graphs**
+* Example: Google Maps → distance / time / cost
 
 ---
 
 ## 🔹 2. Weighted Graph
 
-* A graph where each edge has a **weight (value)**.
+* Each edge has a **weight**
 * Weight can represent:
 
   * Distance 🚗
@@ -25,270 +22,250 @@
 
 📌 Important:
 
-* We don’t count number of edges
-* We **sum weights**
+* We **sum weights**, not number of edges
 
 ---
 
-## 🔹 3. Goal of Dijkstra’s Algorithm
+## 🔹 3. Goal
 
-* Find **shortest distance from ONE source node → ALL nodes**
+* Find shortest distance from **one source → all vertices**
 
 ---
 
-## 🔹 4. Key Idea (Greedy Algorithm)
+## 🔹 4. Greedy Idea
 
-👉 Dijkstra is a **Greedy Algorithm**
-
-### 🔹 What is Greedy?
-
-* At every step → choose **best (minimum) option locally**
-* Leads to **global optimal solution**
+* Always pick **minimum distance node first**
+* Local optimal → global optimal
 
 💡 Intuition:
 
-> Always pick the **shortest available path first**
+> Always move via the cheapest path available
 
 ---
 
 ## 🔹 5. Important Condition ⚠️
 
-❌ Works ONLY for:
-
-* **Positive weights (≥ 0)**
-
-❌ If negative weights exist → use:
-
-* Bellman-Ford Algorithm
+* Works only for **non-negative weights**
+* For negative weights → use Bellman-Ford
 
 ---
 
-# 🔥 6. Core Concept: Edge Relaxation (VERY IMPORTANT)
+## 🔥 6. Edge Relaxation (CORE)
 
-### 🔹 Formula:
+### Condition:
 
-If:
-
-```
 dist[v] > dist[u] + weight(u → v)
 
-dist[v] = Distance of v from source
-dist[u] = Distance of u from source
-weight = weight from u to v
-```
+### Update:
 
-Then:
-
-```
 dist[v] = dist[u] + weight(u → v)
-(Updating the value)
-```
 
----
+### Meaning:
 
-### 🔹 Meaning:
+* Check if going via **u improves v**
+* If yes → update
 
-* Check if going via **u → v** is shorter than current path
-* If yes → update distance
-
----
-
-### 🔹 Intuition:
+💡 Question:
 
 > “Is it cheaper to reach v through u?”
 
-✔ If YES → update
-✔ If NO → ignore
+---
+
+## 📊 7. Graph Representation
+
+* Adjacency List:
+  vector<vector<Edge>> graph;
+
+* Edge stores:
+
+  * destination (v)
+  * weight (wt)
 
 ---
 
-# 📊 7. Graph Representation
+## ⚙️ 8. Data Structures
 
-### Using Adjacency List
+### 1. Distance Array
 
-```cpp
-vector<vector<Edge>> graph;
-```
-
-Each edge stores:
-
-```cpp
-class Edge {
-    int destination; (from source to curr vertex)
-    int weight;
-};
-```
-
----
-
-# ⚙️ 8. Data Structures Used
-
-## 🔹 1. Distance Array
-
-```cpp
-vector<int> dist(V, INT_MAX);
-```
-
-* Stores shortest distances
+* dist[i] = shortest distance from source
 * Initialize:
 
-  * Source → 0
-  * Others → ∞
+  * source = 0
+  * others = ∞
 
 ---
 
-## 🔹 2. Priority Queue (Min Heap)
+### 2. Priority Queue (Min Heap)
 
-* Stores: `(distance, node)`
-
-👉 Important:
-
-* Distance is stored **first**
-* Sorting is based on **distance**
+* Stores: (distance, node)
+* Always gives **minimum distance node**
 
 ---
 
-### 🔹 Why Priority Queue?
+## 🔄 9. Algorithm Steps
 
-* Always gives **minimum distance node first**
-* Needed for greedy approach
+### Step 1: Initialization
 
----
-
-# 🔄 9. Algorithm Steps (Step-by-Step)
-
----
-
-## 🟢 Step 1: Initialization
-
-* Create distance array → all ∞
-* Set source = 0
-* Push `(0, source)` into PQ
+* dist[] = ∞
+* dist[src] = 0
+* push (0, src) into PQ
 
 ---
 
-## 🟢 Step 2: While PQ not empty
+### Step 2: While PQ not empty
 
-### 1. Extract minimum node
-
-```cpp
-auto [dist_u, u] = pq.top();
-pq.pop();
-```
+1. Extract node with minimum distance
+2. Traverse its neighbors
+3. Apply relaxation
 
 ---
 
-### 2. Traverse all neighbors of u
+### Relaxation Step
 
-For each edge:
+If shorter path found:
 
-```cpp
-u → v with weight w
-```
-
----
-
-### 3. Apply Edge Relaxation
-
-```cpp
-if (dist[v] > dist[u] + w) {
-    dist[v] = dist[u] + w;
-    pq.push({dist[v], v});
-}
-```
+* update distance
+* push into PQ
 
 ---
 
-## 🟢 Step 3: Repeat until PQ empty
+### Step 3: Repeat until PQ empty
 
 ---
 
-## 🟢 Step 4: Final Result
+### Step 4: Result
 
-* `dist[]` contains shortest distances
-
----
-
-# 📌 10. Example Result
-
-Final distances from source (0):
-
-```
-0 → 0 = 0
-0 → 1 = 2
-0 → 2 = 3
-0 → 3 = 8
-0 → 4 = 6
-0 → 5 = 9
-```
+* dist[] contains shortest paths
 
 ---
 
-# ⚡ 11. Important Observations
+## 📌 10. Example Result
 
-### 🔹 1. Node can appear multiple times in PQ
+From source 0:
 
-* Old distances remain
-* Only smallest one matters
-
----
-
-### 🔹 2. BFS + Priority Queue
-
-* Dijkstra = **Modified BFS**
-* Uses PQ instead of normal queue
+* 0 → 0 = 0
+* 0 → 1 = 2
+* 0 → 2 = 3
+* 0 → 3 = 8
+* 0 → 4 = 6
+* 0 → 5 = 9
 
 ---
 
-### 🔹 3. Greedy Behavior
+## ⚡ 11. Observations
 
-* Always expand **minimum distance node first**
-
----
-
-# 🧠 12. Pseudocode (Exam Ready)
-
-```cpp
-Initialize dist[V] = INT_MAX
-dist[source] = 0
-
-PriorityQueue pq
-pq.push({0, source})
-
-while (!pq.empty()) {
-    u = pq.top().second
-    pq.pop()
-
-    for each neighbor v of u {
-        if (dist[v] > dist[u] + weight(u,v)) {
-            dist[v] = dist[u] + weight(u,v)
-            pq.push({dist[v], v})
-        }
-    }
-}
-```
+* Node may appear multiple times in PQ
+* Only smallest distance matters
+* Dijkstra = BFS + Priority Queue
+* Always expands smallest distance first
 
 ---
 
-# 🚀 13. Complexity
+## 🧠 12. Pseudocode (Clean)
 
-| Operation | Complexity |
-| --------- | ---------- |
-| Using PQ  | O(E log V) |
+* Initialize dist[] = ∞
+* dist[src] = 0
+* push (0, src)
+
+While PQ not empty:
+
+* pop node u
+* for each neighbor v:
+
+  * if dist[v] > dist[u] + w:
+
+    * update dist[v]
+    * push (dist[v], v)
 
 ---
 
-# 🎯 14. Key Points for Exams
+## 🚀 13. Time Complexity
 
-* ✔ Works only for **positive weights**
-* ✔ Uses **Greedy approach**
-* ✔ Core = **Edge Relaxation**
-* ✔ Uses **Min Heap (Priority Queue)**
-* ✔ Finds **single source shortest path**
+### Core:
+
+* PQ operation = O(log V)
 
 ---
 
-# 💡 15. One-Line Summary
+### Total:
 
-> Dijkstra repeatedly picks the nearest node and relaxes its edges to find shortest paths.
+O((V + E) log V)
+
+---
+
+### Expanded:
+
+O(V log V + E log V)
+
+---
+
+## 🔹 14. Edge Limits
+
+* Directed: E = V(V−1)
+* Undirected: E = V(V−1)/2
+
+👉 Therefore:
+E ≤ V²
+
+---
+
+## 🔹 15. Worst Case
+
+O(V² log V)
+
+---
+
+## 🔹 16. Standard Form
+
+Most used:
+
+* O(E log V)
+
+Also valid:
+
+* O(E log E)
+
+---
+
+## 🔍 17. Why O(E log E) = O(E log V)
+
+Since:
+
+* E ≤ V²
+
+So:
+
+* log E = log(V²) = 2 log V
+
+👉 Ignore constant → same complexity
+
+---
+
+## 🔹 18. Graph Types Impact
+
+### Sparse Graph:
+
+* E ≈ V
+* Complexity → O(V log V)
+
+### Dense Graph:
+
+* E ≈ V²
+* Complexity → O(V² log V)
+
+---
+
+## 🔹 19. Key Takeaways
+
+* Greedy algorithm
+* Uses Min Heap
+* Core = Edge Relaxation
+* Works only for positive weights
+* Time complexity → O(E log V)
+
+---
+
+## 🎯 20. One-Line Summary
+
+> Dijkstra finds shortest paths by always expanding the closest node and relaxing edges.
 

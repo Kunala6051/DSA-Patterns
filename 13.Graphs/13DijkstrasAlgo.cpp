@@ -17,6 +17,12 @@ using namespace std;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // min heap of pairs
 
 */
+
+// Dijkstra's Algorithm is a popular algorithm used to find the shortest paths from a source vertex to 
+// all other vertices in a graph with non-negative edge weights. 
+// It is a greedy algorithm that works by iteratively selecting the vertex with the smallest distance from the source
+// and updating the distances of its neighbors. The algorithm continues until all vertices have been processed.
+
 class Edge{
 public:
     int v, wt;
@@ -34,9 +40,7 @@ vector<int> shortestPaths(int src, vector<vector<Edge>> g, int V){
         int u = q.top().second;
         q.pop();
 
-        vector<Edge> neigh_u = g[u];
-
-        for(Edge e: neigh_u){
+        for(Edge e: g[u]){
             if(dist[e.v] > dist[u] + e.wt){
                 dist[e.v] = dist[u] + e.wt;
                 q.push({dist[e.v], e.v});
@@ -59,6 +63,23 @@ int main(){
     g[3].push_back(Edge(5, 1));
     g[4].push_back(Edge(3, 2));
     g[4].push_back(Edge(5, 5));
+
+    // The graph structure is as follows:
+    //         2
+    //    0 --------> 1
+    //    |           |\
+    //    |4          | \7
+    //    |           |  \
+    //    v           v   v
+    //    2 -------> 4 -->3
+    //       3        |    |
+    //                |2   |1
+    //                |    |
+    //                v    v
+    //                3 -->5
+    // Also
+
+    // 4 ----5----> 5
     
     vector<int> dist = shortestPaths(0, g, v);
     cout << "Shortest distances from source 0: ";
