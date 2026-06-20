@@ -67,14 +67,15 @@ int PrimsMST(vector<vector<Edge>> g, int V){
         int wt = pq.top().first;  // Get the weight of that edge
         pq.pop();
 
-        if(inMST[u]) continue; // If vertex is already in MST, skip it
+        if(!inMST[u]) {// If vertex u is not already included in MST
 
-        inMST[u] = true; // Include vertex in MST
-        totalCost += wt; // Add weight to total cost
+            inMST[u] = true; // Include vertex in MST
+            totalCost += wt; // Add weight to total cost
 
-        for(Edge e: g[u]){ // Explore all edges from vertex u
-            if(!inMST[e.v]){ // If the vertex is not in MST
-                pq.push({e.wt, e.v}); // Add edge to priority queue
+            for(Edge e: g[u]){ // Explore all edges from vertex u
+                if(!inMST[e.v]){ // If the vertex is not in MST
+                    pq.push({e.wt, e.v}); // Add edge to priority queue
+                }
             }
         }
     }
