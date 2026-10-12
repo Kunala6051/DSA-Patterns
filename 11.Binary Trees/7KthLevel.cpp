@@ -34,7 +34,7 @@ Node* buildTree(vector<int> preOrder){
 }
 
 // Print nodes at Kth level of binary tree
-void printKthLevel(Node* root, int k){
+void printKthLevel2(Node* root, int k){
     if(!root) return;          // base case: empty tree
 
     if(k == 1){                // if k is 1, print current node's data
@@ -43,8 +43,27 @@ void printKthLevel(Node* root, int k){
     }
 
     // recursively call for left and right subtrees with k-1
-    printKthLevel(root->left, k - 1);
-    printKthLevel(root->right, k - 1);
+    printKthLevel2(root->left, k - 1);
+    printKthLevel2(root->right, k - 1);
+}
+
+
+// My approach
+void helper(Node* root, int k, int i){
+    if(!root) return;          // base case: empty tree
+
+    if(i == k){        
+        cout << root->data << " ";
+        return;
+    }
+
+    // recursively call for left and right subtrees with k-1
+    helper(root->left, k, i + 1);
+    helper(root->right, k, i + 1);
+}
+
+void printKthLevel(Node* root, int k){
+    helper(root, k, 1);
 }
 
 int main(){

@@ -60,6 +60,14 @@ int main() {
     cout << "Original Tree Preorder: ";
     preorderPrint(root);
     cout << endl;
+    // Tree looks like this:
+    //         10
+    //        /  \
+    //      -2    6
+    //      / \     \
+    //     8  -4     5
+    // pre order before: 10 -2 8 -4 6 5
+    // pre order after: 23 2 8 -4 11 5
     cout << "Sum Tree Preorder: " << sumOfTree(root) << endl;
     cout << "Sum Tree Preorder: ";
     preorderPrint(root);

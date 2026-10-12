@@ -29,7 +29,7 @@ void printSubsets(vector <int> arr,vector <int> ans, int i){
 // Total subsets = 2^n
 // where n is the size of the input set
 
-// Total recursive calls = 2^n * n
+// Total recursive calls = 2^n * n 
 // Time Complexity: Total recursive calls * Work done in each call
 //                  = O(2^n * n)
 
@@ -42,7 +42,7 @@ void printSubsets(vector <int> arr,vector <int> ans, int i){
 
 void subsetHelper(vector<int>& nums, vector<vector<int>>& ans, vector<int> temp, int i){
     if(i==nums.size()){
-        ans.push_back(temp);
+        ans.push_back(temp); // O(n) time to copy the temp vector to ans
         return ;
     }
 
@@ -80,7 +80,7 @@ void subsetHelper2(vector<int>& nums,               // Input array (may contain 
 {
     // Base case: if we've processed all elements
     if (i == nums.size()) {
-        ans.push_back(temp);  // Add the current subset to the answer
+        ans.push_back(temp);  // Add the current subset to the answer and takes O(n) time to copy the temp vector to ans
         return;
     }
 
