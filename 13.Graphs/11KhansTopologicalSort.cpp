@@ -84,6 +84,10 @@ public:
     }
 };
 
+// The base condition for detecting a cycle using Kahn's algorithm is whether all nodes can be processed.
+// - If count == V → No cycle exists. Return false.
+// - If count < V → A cycle exists. Return true.
+
 int main(){
     Graph g(6); // create a graph with 6 vertices (0 to 5)
     // Adding edges to the graph. The graph structure will be:

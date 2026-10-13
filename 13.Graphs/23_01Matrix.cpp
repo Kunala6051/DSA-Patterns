@@ -1,12 +1,6 @@
 // Leetcode 542. 01 Matrix
 
-// Multi-source BFS:
-// 1. Push all zero cells into the queue with distance 0.
-// 2. BFS processes cells level by level in increasing distance order.
-// 3. Neighbors of distance-0 cells get distance 1;
-//    neighbors of distance-1 cells get distance 2, and so on.
-// 4. The first time a cell is visited, its distance is the shortest
-//    distance to any zero, so we never need to revisit it.
+
 
 class Solution {
 public:
@@ -67,3 +61,13 @@ public:
         return dist;
     }
 };
+
+// Multi-source BFS is a Breadth-First Search in which we start from multiple source nodes simultaneously instead of just one.
+
+// Multi-source BFS:
+// 1. Push all zero cells into the queue with distance 0.
+// 2. BFS processes cells level by level in increasing distance order.
+// 3. Neighbors of distance-0 cells get distance 1;
+//    neighbors of distance-1 cells get distance 2, and so on.
+// 4. The first time a cell is visited, its distance is the shortest
+//    distance to any zero, so we never need to revisit it.
