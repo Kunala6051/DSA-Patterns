@@ -7,7 +7,7 @@
 
 /*
 ================================================================================
-                            BELLMAN FORD ALGORITHM
+                            BELLMAN FORD ALGORITHM  [ relaxing every edge V − 1 times ]
 ================================================================================
 
 Purpose:
@@ -128,6 +128,10 @@ This process is called RELAXATION.
 ===============================================================================
 WHY DO WE RELAX EDGES V-1 TIMES?  [VERY IMPORTANT]
 ===============================================================================
+
+We relax all edges \(V-1\) times because a shortest simple path can contain at most \(V-1\) edges. 
+   Each pass allows the shortest distance to propagate across another edge, so after \(V-1\) passes, 
+   all shortest distances are guaranteed to be found, provided no reachable negative-weight cycle exists.
 
 Observation:
 Shortest path can contain at most (V-1) edges.
@@ -254,6 +258,10 @@ vector<int> shortestPaths(int src, vector<vector<Edge>> g, int V){
             }
         }
     }
+
+    // The three loops do not mean the time complexity is \(O(V^3)\). 
+    // The middle and inner loops together visit all edges, so the overall time complexity is \(O(VE)\), 
+    // where V is the number of vertices and E is the number of edges.
 
     // Check for negative weight cycles
     for(int u=0; u<V; u++){
