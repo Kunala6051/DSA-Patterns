@@ -202,10 +202,16 @@ class Solution {
                 // ancestor through a back edge, u-v is a bridge.
 
                 // Mtlb v ka agar low time u ke discovery time se bhi bda hai
-                // u aur v mei is edge ke ilava koi link nhi h 
+                // u aur v mei aur unke subtrees mei is edge ke ilava koi link nhi h 
+                // basically this edge connects two diff connected components of graph
                 if (low[v] > disT[u]) {
                     bridges.push_back({u, v});
                 }
+
+                // now why not >=
+                // becuase if we writw =, it will mean there is an edge from v or v's subtree which connects back
+                // directly to u
+                // this is called back edge
 
             } else { 
                 // Also bridge cannot be find if its neighbour is visited means if this edge does not even exist v can still be visited
@@ -216,7 +222,7 @@ class Solution {
                 // Use disT[v], NOT low[v], because we are using
                 // this direct edge rather than exploring v's
                 // subtree again.
-                
+
                 low[u] = min(low[u], disT[v]);
             }
         }
@@ -246,10 +252,14 @@ public:
 
         vector<vector<int>> bridges;
 
-        // Start DFS from node 0.
-        // Parent is also set to 0 so its initial parent edge
-        // is ignored. This works for a simple graph.
-        dfs(0, adj, 0, vis, disT, low, bridges);
+
+        // Traverse all the disconnected components
+        for(int i=0; i<n; i++){
+            if(disT[i]==-1){
+                dfs(i, adj, -1, disT, low, bridges);
+                // Parent is set to -1 as it is the root node
+            }
+        }
 
         return bridges;
     }
@@ -299,7 +309,7 @@ public:
 
         for(int i=0; i<n; i++){
             if(disT[i]==-1){
-                dfs(0, adj, 0, disT, low, bridges);
+                dfs(i, adj, -1, disT, low, bridges);
             }
         }
 
