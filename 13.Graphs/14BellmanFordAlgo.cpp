@@ -252,7 +252,7 @@ vector<int> shortestPaths(int src, vector<vector<Edge>> g, int V){
     for(int i=0; i<V-1; i++){ // Relax all edges V-1 times
         for(int u=0; u<V; u++){
             for(Edge e: g[u]){
-                if(dist[e.v] > dist[u] + e.wt){
+                if(dist[u] != INT_MAX && dist[e.v] > dist[u] + e.wt){
                     dist[e.v] = dist[u] + e.wt;
                 }
             }
@@ -274,7 +274,6 @@ vector<int> shortestPaths(int src, vector<vector<Edge>> g, int V){
     }
 
     return dist;
-
 
 }
 

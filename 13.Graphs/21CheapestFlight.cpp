@@ -82,6 +82,14 @@ public:
     }
 };
 
+// A min-priority queue can be used for Cheapest Flights Within K Stops. The issue is not the priority queue itself; it's the standard Dijkstra approach.
+// - Normal Dijkstra prioritizes the minimum cost to reach a node and typically keeps only one best distance per node.
+// - This problem has an extra constraint: the number of stops cannot exceed k.
+// - Reaching a node with the lowest cost does not necessarily mean reaching it with a valid number of stops.
+// - If we keep only one distance per node, we may discard another path that costs more but uses fewer flights.
+// - Therefore, we must track both cost and flights used, keeping separate states when necessary.
+// In short: A min-priority queue is allowed, but standard Dijkstra with just one dist[] value per node is not sufficient.
+
 int main() {
     Solution obj;
 
