@@ -206,6 +206,27 @@ int robTabulation(vector<int>& nums) {
     return dp[n-1];
 }
 
+// ============================================================
+// SPACE OPTIMIZATION (BOTTOM-UP DP)
+// ============================================================
+
+int rob(vector<int>& nums) {
+    int n = nums.size();
+    if(n == 1) return nums[0];
+
+    int prev2 = nums[0];
+    int prev1 = max(nums[0], nums[1]);
+
+    for(int i = 2; i < n; i++) {
+        int curr = max(prev2 + nums[i], prev1);
+
+        prev2 = prev1;
+        prev1 = curr;
+    }
+
+    return prev1;
+}
+
 
 // ============================================================
 // MAIN FUNCTION - SHOWCASING BOTH APPROACHES
@@ -222,6 +243,9 @@ int main() {
 
     cout << "Tabulation Answer: "
          << robTabulation(nums) << endl;
+
+    cout << "Space Optimization Answer: "
+         << rob(nums) << endl;
 
     return 0;
 }
